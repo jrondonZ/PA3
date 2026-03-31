@@ -1,0 +1,43 @@
+<!-- HTML for multiplication table generator -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Multiplication Table Game</title>
+	<link rel="stylesheet" href="pa3.css">
+	<link rel="icon" type="image/jpeg" href="Images/MultSymbol.jpg"/>
+</head>
+
+<body>
+	<h1>The Multiplication Table Challenge</h1>
+	<!-- user input section to enter number that will determine table size-->
+	<div id="input-section">
+		<input type="text" id="tableSize" placeholder="Enter a number of max 20">
+		<button id="generateBtn">Generate Table</button>
+		<p id="error-message"></p>
+	</div>
+	
+	<!-- Placeholder Image
+	<div id="Placeholder">
+		<img src="Images/MathCoverPhoto.jpg" alt="Multiplication Placeholder Image">
+	</div>
+	-->
+
+	<div class="image-container">
+		<img src="Images/MathCoverPhoto.jpg" alt="Multiplication Placeholder Image">
+	</div>
+
+
+	<!-- Mult. table here (determined by js) -->
+	<div id="table-container"></div>
+
+	<!-- Timer -->
+	<div id="timer"></div>
+
+	<!-- Result message -->
+	<div id="result-message"></div>
+
+	<script src="PA3.js"></script>
+</body>
+</html>
