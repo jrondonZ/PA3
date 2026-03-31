@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM elements
-    const sizeInput = document.getElementById('sizeInput');
+    const sizeInput = document.getElementById('tableSize');        
     const generateBtn = document.getElementById('generateBtn');
-    const tableContainer = document.getElementById('tableContainer');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const feedbackMessage = document.getElementById('feedbackMessage');
-    const placeholderImage = document.getElementById('placeholderImage');
+    const tableContainer = document.getElementById('table-container');  
+    const timerDisplay = document.getElementById('timer');         
+    const feedbackMessage = document.getElementById('result-message'); 
+    const placeholderImage = document.querySelector('.image-container'); 
 
     let currentTimer = null;          // setInterval handle
     let currentTable = null;          // reference to the generated table
@@ -31,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
         tableContainer.style.display = 'none';  // hidden until new table is built
     }
 
-    // Show feedback for 2 seconds, then revert to initial state
+    // Show feedback for 2.5 seconds, then revert to initial state
     function showFeedbackAndReset(isCorrect) {
-        const msg = isCorrect ? 'Correct! Well done.' : ` Incorrect. The correct answer was ${correctAnswer}.`;
+        const msg = isCorrect ? ' Correct! Well done.' : ` Incorrect. The correct answer was ${correctAnswer}.`;
         feedbackMessage.textContent = msg;
         feedbackMessage.style.color = isCorrect ? 'green' : 'red';
         feedbackMessage.style.display = 'block';
@@ -47,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tableContainer.style.display = 'none';
             if (currentTable) tableContainer.removeChild(currentTable);
             currentTable = null;
-            sizeInput.value = '';
+            sizeInput.value = '';   // clear the input field
         }, 2500);
     }
 
@@ -102,15 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
             for (let j = 1; j <= size; j++) {
                 const td = document.createElement('td');
-                // Checkerboard class: (i+j) % 2 determines light/dark
-                td.classList.add((i + j) % 2 === 0 ? 'cell-even' : 'cell-odd');
-
+                // Checkerboard class: (i+j) % 2 determines which animation group
+                
                 if (i === randomRow && j === randomCol) {
                     // Blank cell: replace with input field
                     const input = document.createElement('input');
-                    input.type = 'number';
+                    input.type = 'text';  // Changed from 'number' to match CSS
                     input.placeholder = '?';
-                    input.classList.add('blank-input');
                     td.appendChild(input);
                     blankInput = input;
                 } else {
@@ -122,7 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
             table.appendChild(tr);
         }
 
-        // Append table to container and make it visible
+        // Clear any existing content in table container and append new table
+        tableContainer.innerHTML = '';
         tableContainer.appendChild(table);
         currentTable = table;
         tableContainer.style.display = 'block';
@@ -150,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { feedbackMessage.style.display = 'none'; }, 2000);
             return;
         }
-        // All good
         feedbackMessage.style.display = 'none';
         generateTable(size);
     }
@@ -161,5 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial state: hide table container, show placeholder
     tableContainer.style.display = 'none';
     if (placeholderImage) placeholderImage.style.display = 'block';
+    
+    tableContainer.innerHTML = '';
 });
     

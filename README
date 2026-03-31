@@ -1,0 +1,83 @@
+# Multiplication Table Challenge - COM214 Programming Assignment 3 - 3/31/26
+
+## Project Overview
+This project is an interactive web-based multiplication table game where users can test their multiplication skills. Users enter a table size (1-20), and a multiplication table is generated with one random cell left blank. The user must enter the correct product before a timer (equal to the table size in seconds) expires.
+
+## Team Members & Roles
+
+### Rebecca (Frontend Developer)
+- Designed and implemented the HTML structure
+- Created all CSS styling including:
+  - Checkerboard pattern with animated color transitions
+  - Responsive table design with uniform cell sizing
+  - Animated border effect for the placeholder image
+  - Centered layout and visual styling
+- Ensured cross-browser compatibility
+- Managed the visual presentation and user interface
+
+### Josiah (Backend Developer)
+- Implemented all JavaScript functionality including:
+  - Input validation (1-20 range, numeric only)
+  - Dynamic multiplication table generation
+  - Random blank cell placement
+  - Timer system with countdown functionality
+  - Answer verification and feedback system
+  - State management (table generation, reset, and cleanup)
+  - Integration with existing HTML/CSS structure
+
+## Development Process
+
+### Collaboration Workflow
+- **Weekly meetings**: We met once a week to review progress, discuss integration points, and resolve any issues
+- **GitHub for version control**: Used GitHub for:
+  - Code repository management
+  - Branch management (frontend/backend branches)
+  - Pull request reviews
+  - Issue tracking
+  - Version history and backups
+- **Communication**: Used GitHub Issues to track tasks, bugs, and feature requests
+
+### Development Timeline
+1. **Week 1**: Initial planning and requirement analysis; created GitHub repository and set up project structure
+2. **Week 2**: Rebecca completed HTML structure and initial CSS; [Your Name] implemented basic JavaScript functions
+3. **Week 3**: Integration and testing; fixed ID mismatches between HTML and JavaScript
+4. **Week 4**: Final polish, bug fixes, and documentation
+
+## Technical Implementation
+
+### Backend (JavaScript) - [Your Name]
+- **DOM Manipulation**: Dynamically creates and destroys table elements based on user input
+- **Event Handling**: Click handlers for generate button, timer intervals for countdown
+- **State Management**: Maintains game state (timer, current table, user answer, correct answer)
+- **Validation**: Input sanitization and user feedback for invalid entries
+- **Timer System**: Countdown timer that triggers answer evaluation when expired
+- **Clean Architecture**: Modular functions for reset, generation, timer, and feedback
+
+### Frontend (HTML/CSS) - Rebecca
+- **Semantic HTML**: Clean, well-structured markup with appropriate IDs for JavaScript hooks
+- **CSS Animations**: 
+  - Checkerboard pattern using nth-child selectors
+  - 6-second alternating color animations
+  - Gradient border animation for the image container
+- **Responsive Design**: Table container with overflow-x auto for smaller screens
+- **Uniform Layout**: Fixed table layout and consistent cell sizing
+
+## Key Features Implemented
+
+ User input validation (1-20, numeric only)  
+ Dynamic multiplication table generation  
+ Random blank cell with input field  
+ Timer display counting down from table size  
+ Answer verification after timer expires  
+ Visual feedback (green/red messages)  
+ Automatic reset to initial state  
+ Animated checkerboard table cells  
+ Responsive table design  
+ Placeholder image with animated border  
+
+## How to Run
+
+1. Clone the repository as HTTP in GitHub: https://github.com/jrondonZ/PA3
+   In terminal cd Documents/projects
+   git clone
+   code .
