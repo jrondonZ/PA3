@@ -14,6 +14,15 @@ table {
 	margin: 0 auto;
 	border-collapse: collapse;
 	min-width: 300px;
+	table-layout: fixed;	/* prevents input box from expanding squares in row/ maintains equal sizing of boxes within table */
+}
+
+td input {
+	/*makes sure the user input fits within input box rather than expanding it*/
+	width: 90%;
+	height: 90%;
+	box-sizing: border-box;
+	text-align: center;
 }
 
 td {
@@ -21,32 +30,35 @@ td {
 	height: 50px;
 	text-align: center;
 	border: 1px solid black;
-}
+	vertical-align: middle;		/*centers content vertically*/
+}	
 
-/* for checkerboard pattern */
-td:nth-child(even) {
-	background-color: teal;
+/*creates illusion of flickering checkered pattern*/
+/* group 1 */
+tr:nth-child(even) td:nth-child(even),
+tr:nth-child(odd) td:nth-child(odd) 
+{
+	animation: colorShift1 6s infinite;
 }
-
-tr:nth-child(even) td:nth-child(odd) {
-	background-color: teal;
+/* group 2 */
+tr:nth-child(even) td:nth-child(odd),
+tr:nth-child(odd) td:nth-child(even) 
+{
+	animation: colorShift2 6s infinite;
 }
-
-tr:nth-child(odd) td:nth-child(even) {
-	background-color: teal;
-}
-
-@keyframes colorShift {
+@keyframes colorShift1 {
 	0% { background-color: teal; }
 	50% { background-color: maroon; }
 	100% { background-color: teal; }
 }
-
-td {
-	animation: colorShift 6s infinite;
+@keyframes colorShift2 {
+	0% { background-color: maroon; }
+	50% { background-color: teal; }
+	100% { background-color: maroon; }
 }
 
-/* adds animation to initial photo displayed on website/page */
+
+/* adds animation to border of initial photo displayed on website/page */
 .image-container {
 	display: inline-block;
 	padding: 5px;
