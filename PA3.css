@@ -1,8 +1,12 @@
+/* Rebecca Manna
+April 2, 2026 */
+
 /* CSS for multiplication table */
 
 body {
 	text-align: center;
 	font-family: Arial, sans-serif;
+	background-color: white;
 }
 
 #table-container {
@@ -29,20 +33,26 @@ td {
 	width: 50px;
 	height: 50px;
 	text-align: center;
-	border: 1px solid black;
+	border: 2px solid green;
 	vertical-align: middle;		/*centers content vertically*/
 }	
 
+/*header row + comlumn*/
+tr:first-child td,
+td:first-child {
+	background-color: #f2e5a2;	/*light yellow to dinstinguish header*/
+	font-weight: bold;
+}
 /*creates illusion of flickering checkered pattern*/
-/* group 1 */
-tr:nth-child(even) td:nth-child(even),
-tr:nth-child(odd) td:nth-child(odd) 
+/* group 1 (excludes headers)*/
+tr:not(:first-child):nth-child(even) td:not(:first-child):nth-child(even),
+tr:not(:first-child):nth-child(odd) td:not(:first-child):nth-child(odd) 
 {
 	animation: colorShift1 6s infinite;
 }
-/* group 2 */
-tr:nth-child(even) td:nth-child(odd),
-tr:nth-child(odd) td:nth-child(even) 
+/* group 2 (excludes headers)*/
+tr:not(:first-child):nth-child(even) td:not(:first-child):nth-child(odd),
+tr:not(:first-child):nth-child(odd) td:not(:first-child):nth-child(even)
 {
 	animation: colorShift2 6s infinite;
 }
@@ -57,21 +67,30 @@ tr:nth-child(odd) td:nth-child(even)
 	100% { background-color: maroon; }
 }
 
+/* adds animation to screen if user inputs incorrect answer (flashes red background) */
+.flash-red {
+	animation: flashRed 3s;
+}
+@keyframes flashRed {
+	0% { background-color: white; }
+	50% { background-color: #ff4d4d; }	/*strong red color*/
+	100% { background-color: white; }
+}
 
 /* adds animation to border of initial photo displayed on website/page */
 .image-container {
-	display: inline-block;
+	display: block;
+	margin: 20px auto;
+	width: fit-content;
 	padding: 5px;
 	border-radius: 10px;
 	background: linear-gradient(270deg, red, blue, green, purple);
 	background-size: 600% 600%;
-	animation: borderMove 6s ease infinite;
+	animation: borderMove 4s linear infinite;
 }
-
 .image-container img {
 	display: block;
 	border-radius: 10px;
-	/* width: 250px; */
 }
 
 @keyframes borderMove {

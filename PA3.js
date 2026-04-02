@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const sizeInput = document.getElementById('tableSize');        
     const generateBtn = document.getElementById('generateBtn');
@@ -37,15 +39,29 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackMessage.style.color = isCorrect ? 'green' : 'red';
         feedbackMessage.style.display = 'block';
 
+        //Adds confetti animation if user inputs correct value
+        if(isCorrect) {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+        //flashes red background animation if user inputs incorrect value
+        else {
+            document.body.classList.add("flash-red");
+
+            setTimeout(() => {
+                document.body.classList.remove('flash-red');
+            }, 500);
+        }
+
         // After 2.5 seconds, hide feedback and show placeholder
         setTimeout(() => {
             feedbackMessage.style.display = 'none';
             feedbackMessage.textContent = '';
             // Reset UI to initial state
-            if (placeholderImage) placeholderImage.style.display = 'block';
-            tableContainer.style.display = 'none';
-            if (currentTable) tableContainer.removeChild(currentTable);
-            currentTable = null;
+            resetGame();
             sizeInput.value = '';   // clear the input field
         }, 2500);
     }
@@ -96,24 +112,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomCol = Math.floor(Math.random() * size) + 1;   // 1..size
         correctAnswer = randomRow * randomCol;
 
-        // Build rows
-        for (let i = 1; i <= size; i++) {
+        // Build rows (including headers)
+        for (let i = 0; i <= size; i++) {
             const tr = document.createElement('tr');
-            for (let j = 1; j <= size; j++) {
+            for (let j = 0; j <= size; j++) {
                 const td = document.createElement('td');
                 // Checkerboard class: (i+j) % 2 determines which animation group
                 
-                if (i === randomRow && j === randomCol) {
-                    // Blank cell: replace with input field
-                    const input = document.createElement('input');
-                    input.type = 'text';  // Changed from 'number' to match CSS
-                    input.placeholder = '?';
-                    td.appendChild(input);
-                    blankInput = input;
-                } else {
-                    // Normal product cell
-                    td.textContent = i * j;
+                // Top left empty corner
+                if (i === 0 && j === 0){
+                    td.textContent = '';
                 }
+
+                // Top header row
+                else if (i === 0) {
+                    td.textContent = j;
+                }
+
+                // Left header column
+                else if (j === 0) {
+                    td.textContent = i
+                }
+
+                //Regular multiplication cells
+                else {
+                    if (i === randomRow && j === randomCol) {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.placeholder = '?';
+                        td.appendChild(input);
+                        blankInput = input;
+                    }
+                    else {
+                        td.textContent = i * j;
+                    }
+                }
+
                 tr.appendChild(td);
             }
             table.appendChild(tr);
