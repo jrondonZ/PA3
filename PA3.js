@@ -1,5 +1,15 @@
-
-
+// Josiah Rondon + Rebecca Manna
+// April 2, 2026
+// COM214 PA3
+// JS file handling functionality + interactivity for the multiplication table game
+// includes:
+//      Generating table based on user input (1-20)
+//      Randomly selecting cell for user input
+//      Implementing countdown timer based on table size
+//      Checking user's answer for correctness
+//      Allowing early submission via pressing 'Enter'
+//      Displays feedback messages + resets game 
+//      Handles invalid user input
 document.addEventListener('DOMContentLoaded', () => {
     const sizeInput = document.getElementById('tableSize');        
     const generateBtn = document.getElementById('generateBtn');
@@ -7,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('timer');         
     const feedbackMessage = document.getElementById('result-message'); 
     const placeholderImage = document.querySelector('.image-container'); 
+    const tableInstructions = document.getElementById('table-instructions');
+    const errorMessage = document.getElementById('error-message');
 
     let currentTimer = null;          // setInterval handle
     let currentTable = null;          // reference to the generated table
@@ -29,14 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
         blankInput = null;
         correctAnswer = null;
         if (placeholderImage) placeholderImage.style.display = 'block';
+        const instructions = document.getElementById('instructions');
+        if (instructions) instructions.style.display = 'block';
         tableContainer.style.display = 'none';  // hidden until new table is built
+
+        if (tableInstructions) tableInstructions.style.display = 'none';
     }
 
     // Show feedback for 2.5 seconds, then revert to initial state
     function showFeedbackAndReset(isCorrect) {
         const msg = isCorrect ? ' Correct! Well done.' : ` Incorrect. The correct answer was ${correctAnswer}.`;
         feedbackMessage.textContent = msg;
-        feedbackMessage.style.color = isCorrect ? 'green' : 'red';
+        feedbackMessage.style.color = isCorrect ? 'green' : 'black';
         feedbackMessage.style.display = 'block';
 
         //Adds confetti animation if user inputs correct value
@@ -48,22 +64,23 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         //flashes red background animation if user inputs incorrect value
+        //removes red after 2.8 seconds, goes back to original background color
         else {
-            document.body.classList.add("flash-red");
+            document.body.classList.add('flash-red');
 
             setTimeout(() => {
                 document.body.classList.remove('flash-red');
-            }, 500);
+            }, 2800);
         }
 
-        // After 2.5 seconds, hide feedback and show placeholder
+        // After 3 seconds, hide feedback and show placeholder
         setTimeout(() => {
             feedbackMessage.style.display = 'none';
-            feedbackMessage.textContent = '';
+           // feedbackMessage.textContent = '';
             // Reset UI to initial state
             resetGame();
             sizeInput.value = '';   // clear the input field
-        }, 2500);
+        }, 3000);
     }
 
     // Countdown logic
@@ -76,7 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (remaining <= 0) {
                 clearInterval(currentTimer);
                 currentTimer = null;
-                timerDisplay.textContent = '0 SECONDS LEFT';
+
+                // Hide timer text
+                timerDisplay.textContent = '';
+
+                // Hide table instructions 
+                if (tableInstructions) tableInstructions.style.display = 'none';
 
                 // Evaluate user's answer
                 let userAnswer = null;
@@ -98,10 +120,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
+    //Allows user to hit 'enter' if they fill in cell before the timer runs out
+    function submitAnswerEarly() {
+        //Stop timer
+        if (currentTimer) {
+            clearInterval(currentTimer);
+            currentTimer = null;
+        }
+
+        //Hide timer
+        timerDisplay.textContent = '';
+
+        //Hide table instructions 
+        if (tableInstructions) tableInstructions.style.display = 'none';
+        
+        //Get user answer
+        let userAnswer = null;
+        if (blankInput) {
+            const val = blankInput.value.trim();
+            userAnswer = val === '' ? NaN : Number(val);
+        }
+
+        const isCorrect = (userAnswer === correctAnswer);
+
+        //Remove table
+        if (currentTable) {
+            tableContainer.removeChild(currentTable);
+            currentTable = null;
+        }
+
+        tableContainer.style.display = 'none';
+
+        //show result
+        showFeedbackAndReset(isCorrect);
+    }
+
     // Generate the multiplication table
     function generateTable(size) {
         // Clear previous
         resetGame();
+
+        //hide any leftover error messaging
+        if (errorMessage) errorMessage.style.display = 'none';
 
         // Create table element
         const table = document.createElement('table');
@@ -142,6 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         input.placeholder = '?';
                         td.appendChild(input);
                         blankInput = input;
+
+                        //if user wants to submit answer before timer runs out
+                        input.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter') {
+                                submitAnswerEarly();
+                            }
+                        });
                     }
                     else {
                         td.textContent = i * j;
@@ -159,6 +226,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTable = table;
         tableContainer.style.display = 'block';
         if (placeholderImage) placeholderImage.style.display = 'none';
+        const instructions = document.getElementById('instructions');
+        if (instructions) instructions.style.display = 'none';
+        if (tableInstructions) tableInstructions.style.display = 'block';
 
         // Start the timer (duration = size seconds)
         startTimer(size);
@@ -168,18 +238,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function onGenerateClick() {
         let rawValue = sizeInput.value.trim();
         if (rawValue === '') {
-            feedbackMessage.textContent = 'Please enter a number between 1 and 20.';
-            feedbackMessage.style.color = 'red';
-            feedbackMessage.style.display = 'block';
-            setTimeout(() => { feedbackMessage.style.display = 'none'; }, 2000);
+            errorMessage.textContent = 'Please enter a number between 1 and 20.';
+            errorMessage.style.color = 'black';
+            errorMessage.style.display = 'block';
+            setTimeout(() => { errorMessage.style.display = 'none'; }, 2000);
             return;
         }
         const size = Number(rawValue);
         if (isNaN(size) || !Number.isInteger(size) || size < 1 || size > 20) {
-            feedbackMessage.textContent = 'Invalid input. Please enter an integer from 1 to 20.';
-            feedbackMessage.style.color = 'red';
-            feedbackMessage.style.display = 'block';
-            setTimeout(() => { feedbackMessage.style.display = 'none'; }, 2000);
+            errorMessage.textContent = 'Invalid input. Please enter an integer from 1 to 20.';
+            errorMessage.style.color = 'black';
+            errorMessage.style.display = 'block';
+            setTimeout(() => { errorMessage.style.display = 'none'; }, 2000);
             return;
         }
         feedbackMessage.style.display = 'none';
@@ -188,6 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach event listener
     generateBtn.addEventListener('click', onGenerateClick);
+    //allows user to hit enter 
+    sizeInput.addEventListener('keypress',(e) => {
+        if (e.key === 'Enter') {
+            onGenerateClick();
+        }
+    });
 
     // Initial state: hide table container, show placeholder
     tableContainer.style.display = 'none';

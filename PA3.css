@@ -1,7 +1,17 @@
-/* Rebecca Manna
-April 2, 2026 */
+/* Rebecca Manna + Josiah Rondon
+April 2, 2026 
+COM 214 PA 3
+*/
 
-/* CSS for multiplication table */
+/* CSS file controls visual design and layout for multiplication table game.
+	Includes:
+		page layout + text styling
+		formatting + alignment of the table
+		checkerboard color pattern + animation transitions
+		styling for input fields + user interaction elements
+		visual feedback effects (red flashing light for incorrect answer or confetti for correct answer) 
+		styling for placeholder image + animated border 
+*/
 
 body {
 	text-align: center;
@@ -68,13 +78,18 @@ tr:not(:first-child):nth-child(odd) td:not(:first-child):nth-child(even)
 }
 
 /* adds animation to screen if user inputs incorrect answer (flashes red background) */
-.flash-red {
-	animation: flashRed 3s;
-}
 @keyframes flashRed {
 	0% { background-color: white; }
-	50% { background-color: #ff4d4d; }	/*strong red color*/
-	100% { background-color: white; }
+	20% { background-color: #ff4d4d; }	/*flashes strong red color*/
+	80% { background-color: #ff4d4d; }	/*stays red*/
+	100% { background-color: white; }	/*fades back to original background color*/
+}
+.flash-red {
+	animation: flashRed 2s forwards;
+}
+
+#table-instructions {
+	display: none;
 }
 
 /* adds animation to border of initial photo displayed on website/page */
@@ -89,6 +104,8 @@ tr:not(:first-child):nth-child(odd) td:not(:first-child):nth-child(even)
 	animation: borderMove 4s linear infinite;
 }
 .image-container img {
+	width: 400px;
+	height:auto;
 	display: block;
 	border-radius: 10px;
 }

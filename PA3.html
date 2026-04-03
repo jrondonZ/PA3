@@ -1,7 +1,15 @@
-<!-- Rebecca Manna
-April 2, 2026 -->
+<!-- Rebecca Manna + Josiah Rondon
+April 2, 2026 
+COM 214 PA 3
+-->
 
-<!-- HTML for multiplication table generator -->
+<!-- HTML file defines the sturcutre of the multiplication table game
+	Includes:
+		 user input field and button to generate table
+		 placeholder image displayed on the main page
+		 containers for the generated table
+		 timer display and result/feedback messages
+ -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +22,14 @@ April 2, 2026 -->
 
 <body>
 	<h1>The Multiplication Table Challenge</h1>
-	<!-- user input section to enter number that will determine table size-->
+	<!-- user input section to enter number that will determine table size + instructions -->
 	<div id="input-section">
 		<input type="text" id="tableSize" placeholder="Enter a number of max 20">
 		<button id="generateBtn">Generate Table</button>
+
+		<p id="instructions" class="instruction-text">
+			Enter a number and press <strong>Enter</strong> or click <strong>Generate Table</strong>
+		</p>
 		<p id="error-message"></p>
 	</div>
 
@@ -28,33 +40,19 @@ April 2, 2026 -->
 
 	<!-- Mult. table here (determined by js) -->
 	<div id="table-container">
-		<!-- hard code table to test out css -->
-		<!--
-		<table>
 
-			<tr>
-            	<td>1</td><td>2</td><td>3</td><td>4</td><td>1</td><td>2</td><td>3</td><td>4</td>
-        	</tr>
-        	<tr>
-            	<td>2</td><td>4</td><td>6</td><td>8</td><td>2</td><td>4</td><td>6</td><td>8</td>
-        	</tr>
-        	<tr>
-            	<td>3</td><td>6</td><td><input type="text"></td><td>12</td><td>3</td><td>6</td><td>7</td><td>12</td>
-        	</tr>
-        <tr>
-            <td>4</td><td>8</td><td>12</td><td>16</td><td>4</td><td>8</td><td>12</td><td>16</td>
-        </tr>
-
-    	</table>
-    	-->
     </div>
+
+    <p id="table-instructions" class="instruction-text">
+    	Enter your answer and press <strong>Enter</strong>, or wait for the timer to run out.
+    </p>
 
 	<!-- Timer -->
 	<div id="timer"></div>
 
 	<!-- Result message -->
 	<div id="result-message"></div>
-
+	
 	<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 	<script src="PA3.js"></script>
 </body>
